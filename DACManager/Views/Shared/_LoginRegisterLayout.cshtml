@@ -1,0 +1,28 @@
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>@ViewData["Title"] | DAC Manager</title>
+	<!-- CSS -->
+	<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="~/css/form-elements.css">
+	<link rel="stylesheet" href="~/css/login.css">
+</head>
+<body>
+	@RenderBody()
+	@section Scripts {
+		@{ 		await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+	}
+
+	<!-- Javascript -->
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script src="~/js/jquery.backstretch.min.js"></script>
+	<script src="~/js/login.js"></script>
+</body>
+</html>

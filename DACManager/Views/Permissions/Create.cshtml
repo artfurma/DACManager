@@ -1,0 +1,144 @@
+@model DACManager.Models.Permission
+
+@{
+	ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+	<div class="form-horizontal">
+		<h4>Permission</h4>
+		<hr />
+		<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<div class="form-group">
+			<label asp-for="UserId" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Actors" class="col-md-2 control-label"></label>
+			<div class="col-md-10 form-inline">
+				<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermissions.Select" class="checkbox" />
+				<label>Select</label>
+				<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermissions.Insert" class="checkbox" />
+				<label>Insert</label>
+				<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermissions.Delete" class="checkbox" />
+				<label>Delete</label>
+				<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermissions.Update" class="checkbox" />
+				<label>Update</label>
+			</div>
+			@*<div class="col-md-10">
+					<div class="form-control"><input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermissions.Select" /> SELECT</div>
+					<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermissions.Insert" /> I
+					<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermissions.Delete" /> D
+					<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermissions.Update"/> U
+					<span asp-validation-for="Actors" class="text-danger"></span>
+				</div>*@
+		</div>
+		<div class="form-group">
+			<label asp-for="Movies" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Movies" class="form-control" />
+				<span asp-validation-for="Movies" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Categories" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Categories" class="form-control" />
+				<span asp-validation-for="Categories" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Customers" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Customers" class="form-control" />
+				<span asp-validation-for="Customers" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Inventories" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Inventories" class="form-control" />
+				<span asp-validation-for="Inventories" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Languages" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Languages" class="form-control" />
+				<span asp-validation-for="Languages" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Payments" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Payments" class="form-control" />
+				<span asp-validation-for="Payments" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Permissions" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Permissions" class="form-control" />
+				<span asp-validation-for="Permissions" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Rentals" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Rentals" class="form-control" />
+				<span asp-validation-for="Rentals" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Staff" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Staff" class="form-control" />
+				<span asp-validation-for="Staff" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="Stores" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="Stores" class="form-control" />
+				<span asp-validation-for="Stores" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<div class="checkbox">
+					<input asp-for="Receive" />
+					<label asp-for="Receive"></label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<div class="checkbox">
+					<input asp-for="Transfer" />
+					<label asp-for="Transfer"></label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="LastUpdate" class="col-md-2 control-label"></label>
+			<div class="col-md-10">
+				<input asp-for="LastUpdate" class="form-control" />
+				<span asp-validation-for="LastUpdate" class="text-danger"></span>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
+</form>
+
+<div>
+	<a asp-action="Index">Back to List</a>
+</div>
+

@@ -1,0 +1,118 @@
+@model IEnumerable<DACManager.Models.Permission>
+
+@{
+	ViewData["Title"] = "User Permissions";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@*<p>
+	<a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.User)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Actors)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Movies)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Categories)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Customers)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Inventories)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Languages)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Payments)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Permissions)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Rentals)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Staff)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Stores)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Receive)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Transfer)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.LastUpdate)
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.User.UserName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Actors)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Movies)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Categories)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Customers)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Inventories)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Languages)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Payments)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Permissions)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Rentals)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Staff)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Stores)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Receive)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Transfer)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.LastUpdate)
+				</td>
+
+				<td>
+					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>

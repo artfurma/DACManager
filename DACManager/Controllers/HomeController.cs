@@ -1,35 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DACManager.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DACManager.Controllers
 {
-    public class HomeController : Controller
-    {
-        public IActionResult Index()
-        {
-            return View();
-        }
+	public class HomeController : Controller
+	{
+		private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
+		public HomeController(SignInManager<ApplicationUser> signInManager)
+		{
+			_signInManager = signInManager;
+		}
 
-            return View();
-        }
+		public IActionResult Index()
+		{
+			if (_signInManager.IsSignedIn(User))
+				return View();
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+			return Unauthorized();
+		}
 
-            return View();
-        }
+		public IActionResult About()
+		{
+			ViewData["Message"] = "Brief description";
 
-        public IActionResult Error()
-        {
-            return View();
-        }
-    }
+			return View();
+		}
+
+		public IActionResult Contact()
+		{
+			ViewData["Message"] = "Contact page";
+
+			return View();
+		}
+
+		public IActionResult Error()
+		{
+			return View();
+		}
+	}
 }
