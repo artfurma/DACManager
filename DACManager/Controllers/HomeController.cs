@@ -35,6 +35,11 @@ namespace DACManager.Controllers
 			return View();
 		}
 
+		public IActionResult AccessDenied()
+		{
+			return View();
+		}
+
 		public IActionResult Error()
 		{
 			return View();

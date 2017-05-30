@@ -7,16 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACManager.Data;
 using DACManager.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace DACManager.Controllers
 {
 	public class CustomersController : Controller
 	{
 		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-		public CustomersController(ApplicationDbContext context)
+
+		public CustomersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 		{
 			_context = context;
+			_userManager = userManager;
+
 		}
 
 		// GET: Customers
@@ -30,8 +35,32 @@ namespace DACManager.Controllers
 				customers = customers.Where(c => c.FirstName.Contains(searchString) || c.LastName.Contains(searchString));
 			}
 
-			var applicationDbContext = customers.Include(c => c.Store);
+			var user = await _userManager.GetUserAsync(HttpContext.User);
+			user.Permission = _context.Permissions.FirstOrDefault(p => p.UserId == user.Id);
 
+			if (user.Permission.Customers == TablePermission.None) return Unauthorized();
+
+			if ((user.Permission.Customers & TablePermission.Select) == TablePermission.Select)
+			{
+				ViewData["Select"] = true;
+			}
+
+			if ((user.Permission.Customers & TablePermission.Insert) == TablePermission.Insert)
+			{
+				ViewData["Insert"] = true;
+			}
+
+			if ((user.Permission.Customers & TablePermission.Delete) == TablePermission.Delete)
+			{
+				ViewData["Delete"] = true;
+			}
+
+			if ((user.Permission.Customers & TablePermission.Update) == TablePermission.Update)
+			{
+				ViewData["Update"] = true;
+			}
+
+			var applicationDbContext = customers.Include(c => c.Store);
 			return View(await applicationDbContext.ToListAsync());
 		}
 

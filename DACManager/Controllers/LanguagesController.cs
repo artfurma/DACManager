@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACManager.Data;
 using DACManager.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace DACManager.Controllers
 {
 	public class LanguagesController : Controller
 	{
 		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-		public LanguagesController(ApplicationDbContext context)
+		public LanguagesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 		{
 			_context = context;
+			_userManager = userManager;
 		}
 
 		// GET: Languages
@@ -28,6 +31,31 @@ namespace DACManager.Controllers
 			if (!string.IsNullOrEmpty(searchString))
 			{
 				languages = languages.Where(l => l.Name.Contains(searchString));
+			}
+
+			var user = await _userManager.GetUserAsync(HttpContext.User);
+			user.Permission = _context.Permissions.FirstOrDefault(p => p.UserId == user.Id);
+
+			if (user.Permission.Languages == TablePermission.None) return Unauthorized();
+
+			if ((user.Permission.Languages & TablePermission.Select) == TablePermission.Select)
+			{
+				ViewData["Select"] = true;
+			}
+
+			if ((user.Permission.Languages & TablePermission.Insert) == TablePermission.Insert)
+			{
+				ViewData["Insert"] = true;
+			}
+
+			if ((user.Permission.Languages & TablePermission.Delete) == TablePermission.Delete)
+			{
+				ViewData["Delete"] = true;
+			}
+
+			if ((user.Permission.Languages & TablePermission.Update) == TablePermission.Update)
+			{
+				ViewData["Update"] = true;
 			}
 
 			return View(await languages.ToListAsync());

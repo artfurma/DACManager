@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using DACManager.Data;
 using DACManager.Models;
 using DACManager.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Framework.DependencyInjection;
 
 namespace DACManager
@@ -52,6 +53,11 @@ namespace DACManager
 			// Add application services.
 			services.AddTransient<IEmailSender, AuthMessageSender>();
 			services.AddTransient<ISmsSender, AuthMessageSender>();
+
+			services.Configure<IdentityOptions>(o =>
+			{
+				o.Cookies.ApplicationCookie.LoginPath = new PathString("/Home/AccessDenied");
+			});
 
 		}
 

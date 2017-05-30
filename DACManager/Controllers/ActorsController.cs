@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACManager.Data;
 using DACManager.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace DACManager.Controllers
 {
 	public class ActorsController : Controller
 	{
 		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-		public ActorsController(ApplicationDbContext context)
+		public ActorsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 		{
 			_context = context;
+			_userManager = userManager;
 		}
 
 		// GET: Actors
@@ -29,6 +33,35 @@ namespace DACManager.Controllers
 			{
 				actors = actors.Where(a => a.FirstName.Contains(searchString) || a.LastName.Contains(searchString));
 			}
+
+			var user = await _userManager.GetUserAsync(HttpContext.User);
+			//if (user == null) return Unauthorized();
+
+			user.Permission = _context.Permissions.FirstOrDefault(p => p.UserId == user.Id);
+
+			if (user.Permission.Actors == TablePermission.None) return Unauthorized();
+
+			if ((user.Permission.Actors & TablePermission.Select) == TablePermission.Select)
+			{
+				ViewData["Select"] = true;
+			}
+			//else return Unauthorized();
+
+			if ((user.Permission.Actors & TablePermission.Insert) == TablePermission.Insert)
+			{
+				ViewData["Insert"] = true;
+			}
+
+			if ((user.Permission.Actors & TablePermission.Delete) == TablePermission.Delete)
+			{
+				ViewData["Delete"] = true;
+			}
+
+			if ((user.Permission.Actors & TablePermission.Update) == TablePermission.Update)
+			{
+				ViewData["Update"] = true;
+			}
+
 
 			return View(await actors.ToListAsync());
 		}

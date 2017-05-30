@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACManager.Data;
 using DACManager.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace DACManager.Controllers
 {
 	public class MoviesController : Controller
 	{
 		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-		public MoviesController(ApplicationDbContext context)
+		public MoviesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 		{
 			_context = context;
+			_userManager = userManager;
 		}
 
 		// GET: Movies
@@ -28,6 +31,31 @@ namespace DACManager.Controllers
 			if (!string.IsNullOrEmpty(searchString))
 			{
 				movies = movies.Where(m => m.Title.Contains(searchString));
+			}
+
+			var user = await _userManager.GetUserAsync(HttpContext.User);
+			user.Permission = _context.Permissions.FirstOrDefault(p => p.UserId == user.Id);
+
+			if (user.Permission.Movies == TablePermission.None) return Unauthorized();
+
+			if ((user.Permission.Movies & TablePermission.Select) == TablePermission.Select)
+			{
+				ViewData["Select"] = true;
+			}
+
+			if ((user.Permission.Movies & TablePermission.Insert) == TablePermission.Insert)
+			{
+				ViewData["Insert"] = true;
+			}
+
+			if ((user.Permission.Movies & TablePermission.Delete) == TablePermission.Delete)
+			{
+				ViewData["Delete"] = true;
+			}
+
+			if ((user.Permission.Movies & TablePermission.Update) == TablePermission.Update)
+			{
+				ViewData["Update"] = true;
 			}
 
 			return View(await movies.ToListAsync());

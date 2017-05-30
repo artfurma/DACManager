@@ -1,22 +1,22 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACManager.Data;
 using DACManager.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace DACManager.Controllers
 {
 	public class CategoriesController : Controller
 	{
 		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-		public CategoriesController(ApplicationDbContext context)
+		public CategoriesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 		{
 			_context = context;
+			_userManager = userManager;
 		}
 
 		// GET: Categories
@@ -29,6 +29,33 @@ namespace DACManager.Controllers
 				categories = categories.Where(c => c.Name.Contains(searchString));
 			}
 
+			var user = await _userManager.GetUserAsync(HttpContext.User);
+			//if (user == null) return Unauthorized();
+
+			user.Permission = _context.Permissions.FirstOrDefault(p => p.UserId == user.Id);
+
+			if (user.Permission.Categories == TablePermission.None) return Unauthorized();
+
+			if ((user.Permission.Categories & TablePermission.Select) == TablePermission.Select)
+			{
+				ViewData["Select"] = true;
+			}
+			//else return Unauthorized();
+
+			if ((user.Permission.Categories & TablePermission.Insert) == TablePermission.Insert)
+			{
+				ViewData["Insert"] = true;
+			}
+
+			if ((user.Permission.Categories & TablePermission.Delete) == TablePermission.Delete)
+			{
+				ViewData["Delete"] = true;
+			}
+
+			if ((user.Permission.Categories & TablePermission.Update) == TablePermission.Update)
+			{
+				ViewData["Update"] = true;
+			}
 			return View(await categories.ToListAsync());
 		}
 

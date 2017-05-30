@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DACManager.Data;
 using DACManager.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace DACManager.Controllers
 {
 	public class StaffController : Controller
 	{
 		private readonly ApplicationDbContext _context;
+		private readonly UserManager<ApplicationUser> _userManager;
 
-		public StaffController(ApplicationDbContext context)
+		public StaffController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
 		{
 			_context = context;
+			_userManager = userManager;
 		}
 
 		// GET: Staff
@@ -28,6 +31,31 @@ namespace DACManager.Controllers
 			if (!string.IsNullOrEmpty(searchString))
 			{
 				staff = staff.Where(s => s.FirstName.Contains(searchString) || s.LastName.Contains(searchString));
+			}
+
+			var user = await _userManager.GetUserAsync(HttpContext.User);
+			user.Permission = _context.Permissions.FirstOrDefault(p => p.UserId == user.Id);
+
+			if (user.Permission.Staff == TablePermission.None) return Unauthorized();
+
+			if ((user.Permission.Staff & TablePermission.Select) == TablePermission.Select)
+			{
+				ViewData["Select"] = true;
+			}
+
+			if ((user.Permission.Staff & TablePermission.Insert) == TablePermission.Insert)
+			{
+				ViewData["Insert"] = true;
+			}
+
+			if ((user.Permission.Staff & TablePermission.Delete) == TablePermission.Delete)
+			{
+				ViewData["Delete"] = true;
+			}
+
+			if ((user.Permission.Staff & TablePermission.Update) == TablePermission.Update)
+			{
+				ViewData["Update"] = true;
 			}
 
 			var applicationDbContext = staff.Include(s => s.Store);
