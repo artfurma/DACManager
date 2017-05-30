@@ -10,144 +10,152 @@ using DACManager.Models;
 
 namespace DACManager.Controllers
 {
-    public class StoresController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+	public class StoresController : Controller
+	{
+		private readonly ApplicationDbContext _context;
 
-        public StoresController(ApplicationDbContext context)
-        {
-            _context = context;    
-        }
+		public StoresController(ApplicationDbContext context)
+		{
+			_context = context;
+		}
 
-        // GET: Stores
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Stores.ToListAsync());
-        }
+		// GET: Stores
+		public async Task<IActionResult> Index(string searchString)
+		{
+			var stores = from s in _context.Stores
+						 select s;
 
-        // GET: Stores/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+			if (!string.IsNullOrEmpty(searchString))
+			{
+				stores = stores.Where(s => s.Name.Contains(searchString));
+			}
 
-            var store = await _context.Stores
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (store == null)
-            {
-                return NotFound();
-            }
+			return View(await stores.ToListAsync());
+		}
 
-            return View(store);
-        }
+		// GET: Stores/Details/5
+		public async Task<IActionResult> Details(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-        // GET: Stores/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+			var store = await _context.Stores
+				.SingleOrDefaultAsync(m => m.Id == id);
+			if (store == null)
+			{
+				return NotFound();
+			}
 
-        // POST: Stores/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Address")] Store store)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(store);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(store);
-        }
+			return View(store);
+		}
 
-        // GET: Stores/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		// GET: Stores/Create
+		public IActionResult Create()
+		{
+			return View();
+		}
 
-            var store = await _context.Stores.SingleOrDefaultAsync(m => m.Id == id);
-            if (store == null)
-            {
-                return NotFound();
-            }
-            return View(store);
-        }
+		// POST: Stores/Create
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("Id,Name,Address")] Store store)
+		{
+			if (ModelState.IsValid)
+			{
+				_context.Add(store);
+				await _context.SaveChangesAsync();
+				return RedirectToAction("Index");
+			}
+			return View(store);
+		}
 
-        // POST: Stores/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address")] Store store)
-        {
-            if (id != store.Id)
-            {
-                return NotFound();
-            }
+		// GET: Stores/Edit/5
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(store);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!StoreExists(store.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(store);
-        }
+			var store = await _context.Stores.SingleOrDefaultAsync(m => m.Id == id);
+			if (store == null)
+			{
+				return NotFound();
+			}
+			return View(store);
+		}
 
-        // GET: Stores/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		// POST: Stores/Edit/5
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address")] Store store)
+		{
+			if (id != store.Id)
+			{
+				return NotFound();
+			}
 
-            var store = await _context.Stores
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (store == null)
-            {
-                return NotFound();
-            }
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					_context.Update(store);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!StoreExists(store.Id))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction("Index");
+			}
+			return View(store);
+		}
 
-            return View(store);
-        }
+		// GET: Stores/Delete/5
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-        // POST: Stores/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var store = await _context.Stores.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Stores.Remove(store);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
+			var store = await _context.Stores
+				.SingleOrDefaultAsync(m => m.Id == id);
+			if (store == null)
+			{
+				return NotFound();
+			}
 
-        private bool StoreExists(int id)
-        {
-            return _context.Stores.Any(e => e.Id == id);
-        }
-    }
+			return View(store);
+		}
+
+		// POST: Stores/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			var store = await _context.Stores.SingleOrDefaultAsync(m => m.Id == id);
+			_context.Stores.Remove(store);
+			await _context.SaveChangesAsync();
+			return RedirectToAction("Index");
+		}
+
+		private bool StoreExists(int id)
+		{
+			return _context.Stores.Any(e => e.Id == id);
+		}
+	}
 }

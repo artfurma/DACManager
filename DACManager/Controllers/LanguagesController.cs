@@ -10,144 +10,152 @@ using DACManager.Models;
 
 namespace DACManager.Controllers
 {
-    public class LanguagesController : Controller
-    {
-        private readonly ApplicationDbContext _context;
+	public class LanguagesController : Controller
+	{
+		private readonly ApplicationDbContext _context;
 
-        public LanguagesController(ApplicationDbContext context)
-        {
-            _context = context;    
-        }
+		public LanguagesController(ApplicationDbContext context)
+		{
+			_context = context;
+		}
 
-        // GET: Languages
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Languages.ToListAsync());
-        }
+		// GET: Languages
+		public async Task<IActionResult> Index(string searchString)
+		{
+			var languages = from l in _context.Languages
+							select l;
 
-        // GET: Languages/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+			if (!string.IsNullOrEmpty(searchString))
+			{
+				languages = languages.Where(l => l.Name.Contains(searchString));
+			}
 
-            var language = await _context.Languages
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (language == null)
-            {
-                return NotFound();
-            }
+			return View(await languages.ToListAsync());
+		}
 
-            return View(language);
-        }
+		// GET: Languages/Details/5
+		public async Task<IActionResult> Details(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-        // GET: Languages/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+			var language = await _context.Languages
+				.SingleOrDefaultAsync(m => m.Id == id);
+			if (language == null)
+			{
+				return NotFound();
+			}
 
-        // POST: Languages/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Language language)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(language);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(language);
-        }
+			return View(language);
+		}
 
-        // GET: Languages/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		// GET: Languages/Create
+		public IActionResult Create()
+		{
+			return View();
+		}
 
-            var language = await _context.Languages.SingleOrDefaultAsync(m => m.Id == id);
-            if (language == null)
-            {
-                return NotFound();
-            }
-            return View(language);
-        }
+		// POST: Languages/Create
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("Id,Name")] Language language)
+		{
+			if (ModelState.IsValid)
+			{
+				_context.Add(language);
+				await _context.SaveChangesAsync();
+				return RedirectToAction("Index");
+			}
+			return View(language);
+		}
 
-        // POST: Languages/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Language language)
-        {
-            if (id != language.Id)
-            {
-                return NotFound();
-            }
+		// GET: Languages/Edit/5
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(language);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LanguageExists(language.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(language);
-        }
+			var language = await _context.Languages.SingleOrDefaultAsync(m => m.Id == id);
+			if (language == null)
+			{
+				return NotFound();
+			}
+			return View(language);
+		}
 
-        // GET: Languages/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		// POST: Languages/Edit/5
+		// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Language language)
+		{
+			if (id != language.Id)
+			{
+				return NotFound();
+			}
 
-            var language = await _context.Languages
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (language == null)
-            {
-                return NotFound();
-            }
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					_context.Update(language);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!LanguageExists(language.Id))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction("Index");
+			}
+			return View(language);
+		}
 
-            return View(language);
-        }
+		// GET: Languages/Delete/5
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-        // POST: Languages/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var language = await _context.Languages.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Languages.Remove(language);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
+			var language = await _context.Languages
+				.SingleOrDefaultAsync(m => m.Id == id);
+			if (language == null)
+			{
+				return NotFound();
+			}
 
-        private bool LanguageExists(int id)
-        {
-            return _context.Languages.Any(e => e.Id == id);
-        }
-    }
+			return View(language);
+		}
+
+		// POST: Languages/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			var language = await _context.Languages.SingleOrDefaultAsync(m => m.Id == id);
+			_context.Languages.Remove(language);
+			await _context.SaveChangesAsync();
+			return RedirectToAction("Index");
+		}
+
+		private bool LanguageExists(int id)
+		{
+			return _context.Languages.Any(e => e.Id == id);
+		}
+	}
 }
