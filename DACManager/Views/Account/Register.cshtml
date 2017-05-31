@@ -1,66 +1,99 @@
 ﻿@model RegisterViewModel
 @{
-	ViewData["Title"] = "Sign in";
-	Layout = "~/Views/Shared/_LoginRegisterLayout.cshtml";
+	ViewData["Title"] = "Add a new user";
+	//Layout = "~/Views/Shared/_LoginRegisterLayout.cshtml";
+}
+
+<form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+	<h4>Add a new user</h4>
+	<hr />
+	<div asp-validation-summary="All" class="text-danger"></div>
+	<div class="form-group">
+		<label asp-for="UserName" class="col-md-2 control-label"></label>
+		<div class="col-md-10">
+			<input asp-for="UserName" class="form-control" />
+			<span asp-validation-for="UserName" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label asp-for="Email" class="col-md-2 control-label"></label>
+		<div class="col-md-10">
+			<input asp-for="Email" class="form-control" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label asp-for="Password" class="col-md-2 control-label"></label>
+		<div class="col-md-10">
+			<input asp-for="Password" class="form-control" />
+			<span asp-validation-for="Password" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="form-group">
+		<label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
+		<div class="col-md-10">
+			<input asp-for="ConfirmPassword" class="form-control" />
+			<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-md-offset-2 col-md-10">
+			<button type="submit" class="btn btn-default">Confirm</button>
+		</div>
+	</div>
+</form>
+@section Scripts {
+	@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
 
 <!-- Top content -->
-<div class="top-content">
+@*<div class="top-content">
 
-	<div class="inner-bg">
-		<div class="container">
-			@*<div class="row">
-				<div class="col-sm-8 col-sm-offset-2 text">
-					<h1><strong>DAC Manager</strong></h1>
-				</div>
-			</div>*@
-			<div class="row">
-				<div class="col-sm-6 col-sm-offset-3 form-box">
-					<div class="form-top">
-						<div class="form-top-left">
-							<h3>Add user</h3>
-							<p>Please enter user credentials below:</p>
+		<div class="inner-bg">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6 col-sm-offset-3 form-box">
+						<div class="form-top">
+							<div class="form-top-left">
+								<h3>Add user</h3>
+								<p>Please enter user credentials below:</p>
+							</div>
+							<div class="form-top-right">
+								<i class="fa fa-user-plus"></i>
+							</div>
 						</div>
-						<div class="form-top-right">
-							<i class="fa fa-user-plus"></i>
+						<div class="form-bottom">
+							<form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+								<div class="form-group">
+									<p asp-for="UserName">Username:</p>
+									<input asp-for="UserName" type="text" class="form-control">
+									<span asp-validation-for="UserName" class="text-danger"></span>
+								</div>
+								<div class="form-group">
+									<p asp-for="Email">Email address:</p>
+									<input asp-for="Email" type="text" class="form-control">
+									<span asp-validation-for="Email" class="text-danger"></span>
+								</div>
+								<div class="form-group">
+									<p asp-for="Password">Password:</p>
+									<input asp-for="Password" type="password" class="form-control">
+									<span asp-validation-for="Password" class="text-danger"></span>
+								</div>
+								<div class="form-group">
+									<p asp-for="ConfirmPassword">Confirm password:</p>
+									<input asp-for="ConfirmPassword" class="form-control" />
+									<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+								</div>
+								<div asp-validation-summary="All" class="text-danger"></div>
+								<hr />
+								<div class="form-group">
+									<button type="submit" class="btn">Register new user</button>
+								</div>
+							</form>
+							<br />
 						</div>
-					</div>
-					<div class="form-bottom">
-						<form asp-controller="Account" asp-action="Register" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-							<div class="form-group">
-								<p asp-for="UserName">Username:</p>
-								<input asp-for="UserName" type="text" class="form-control">
-								<span asp-validation-for="UserName" class="text-danger"></span>
-							</div>
-							<div class="form-group">
-								<p asp-for="Email">Email address:</p>
-								<input asp-for="Email" type="text" class="form-control">
-								<span asp-validation-for="Email" class="text-danger"></span>
-							</div>
-							<div class="form-group">
-								<p asp-for="Password">Password:</p>
-								<input asp-for="Password" type="password" class="form-control">
-								<span asp-validation-for="Password" class="text-danger"></span>
-							</div>
-							<div class="form-group">
-								<p asp-for="ConfirmPassword">Confirm password:</p>
-								<input asp-for="ConfirmPassword" class="form-control" />
-								<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-							</div>
-							<div asp-validation-summary="All" class="text-danger"></div>
-							<hr />
-							<div class="form-group">
-								<button type="submit" class="btn">Register new user</button>
-							</div>
-							@*<p class="col-xs-8">
-								<a asp-action="Login">Already an user? Log in.</a>
-							</p>*@
-						</form>
-						<br />
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-
-</div>
+	</div>*@
