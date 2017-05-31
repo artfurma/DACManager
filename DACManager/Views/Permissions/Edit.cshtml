@@ -80,21 +80,15 @@
 					<span asp-validation-for="Actors" class="text-danger"></span>*@
 			</div>
 		</div>
-		<div class="form-group">
+		@*<div class="form-group">
 			<label asp-for="Inventories" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Inventories" class="form-control" />
-					<span asp-validation-for="Inventories" class="text-danger"></span>
-				</div>*@
 			<div class="col-md-10 form-inline">
 				<input type="checkbox" asp-enum-flag-for="Inventories" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Inventories" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Inventories" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Inventories" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
 			</div>
-		</div>
+		</div>*@
 		<div class="form-group">
 			<label asp-for="Languages" class="col-md-2 control-label"></label>
 			@*<div class="col-md-10">
@@ -110,79 +104,40 @@
 					<span asp-validation-for="Actors" class="text-danger"></span>*@
 			</div>
 		</div>
-		<div class="form-group">
+		@*<div class="form-group">
 			<label asp-for="Payments" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Payments" class="form-control" />
-					<span asp-validation-for="Payments" class="text-danger"></span>
-				</div>*@
 			<div class="col-md-10 form-inline">
 				<input type="checkbox" asp-enum-flag-for="Payments" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Payments" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Payments" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Payments" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
 			</div>
-		</div>
-		<div class="form-group">
-			<label asp-for="Permissions" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Permissions" class="form-control" />
-					<span asp-validation-for="Permissions" class="text-danger"></span>
-				</div>*@
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Permissions" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Permissions" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Permissions" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Permissions" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
-			</div>
-		</div>
-		<div class="form-group">
+		</div>*@
+		@*<div class="form-group">
 			<label asp-for="Rentals" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Rentals" class="form-control" />
-					<span asp-validation-for="Rentals" class="text-danger"></span>
-				</div>*@
 			<div class="col-md-10 form-inline">
 				<input type="checkbox" asp-enum-flag-for="Rentals" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Rentals" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Rentals" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Rentals" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
 			</div>
-		</div>
+		</div>*@
 		<div class="form-group">
 			<label asp-for="Staff" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Staff" class="form-control" />
-					<span asp-validation-for="Staff" class="text-danger"></span>
-				</div>*@
 			<div class="col-md-10 form-inline">
 				<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
 			</div>
 		</div>
 		<div class="form-group">
 			<label asp-for="Stores" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Stores" class="form-control" />
-					<span asp-validation-for="Stores" class="text-danger"></span>
-				</div>*@
 			<div class="col-md-10 form-inline">
 				<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
 				<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
 			</div>
 		</div>
 		<div class="form-group">
@@ -190,14 +145,6 @@
 				<div class="checkbox">
 					<input asp-for="Receive" />
 					<label asp-for="Receive"></label>
-				</div>
-			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
-				<div class="checkbox">
-					<input asp-for="Transfer" />
-					<label asp-for="Transfer"></label>
 				</div>
 			</div>
 		</div>

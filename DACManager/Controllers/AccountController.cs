@@ -127,7 +127,6 @@ namespace DACManager.Controllers
 					Staff = TablePermission.None,
 					Stores = TablePermission.None,
 					Receive = false,
-					Transfer = false,
 					LastUpdate = DateTime.Now
 				};
 

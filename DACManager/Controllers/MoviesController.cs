@@ -42,7 +42,7 @@ namespace DACManager.Controllers
 			{
 				ViewData["Select"] = true;
 			}
-
+				
 			if ((user.Permission.Movies & TablePermission.Insert) == TablePermission.Insert)
 			{
 				ViewData["Insert"] = true;

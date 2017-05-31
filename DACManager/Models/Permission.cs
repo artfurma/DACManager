@@ -11,28 +11,38 @@ namespace DACManager.Models
 	{
 		[Display(Name = "-")]
 		None = 0,
-		[Display(Name = "S")]
-		Select = 1,
+		[Display(Name = "s")]
+		Select = 1 << 0,
+		[Display(Name = "i")]
+		Insert = 1 << 1,
+		[Display(Name = "d")]
+		Delete = 1 << 2,
+		[Display(Name = "u")]
+		Update = 1 << 3,
+		[Display(Name="S")]
+		DelegateSelect = 1 << 4,
 		[Display(Name = "I")]
-		Insert = 2,
+		DelegateInsert = 1 << 5,
 		[Display(Name = "D")]
-		Delete = 4,
+		DelegateDelete = 1 << 6,
 		[Display(Name = "U")]
-		Update = 8,
-		[Display(Name = "SI")]
-		SelectInsert = Select | Insert,
-		[Display(Name = "SD")]
-		SelectDelete = Select | Delete,
-		[Display(Name = "SU")]
-		SelectUpdate = Select | Update,
-		[Display(Name = "SID")]
-		InsertDelete = Select | Insert | Delete,
-		[Display(Name = "SIU")]
-		InsertUpdate = Select | Insert | Update,
-		[Display(Name = "SDU")]
-		DeleteUpdate = Select | Delete | Update,
-		[Display(Name = "SIDU")]
-		InsertDeleteUpdate = Select | Insert | Delete | Update,
+		DelegateUpdate = 1 << 7,
+		//[Display(Name = "SI")]
+		//SelectInsert = Select | Insert,
+		//[Display(Name = "SD")]
+		//SelectDelete = Select | Delete,
+		//[Display(Name = "SU")]
+		//SelectUpdate = Select | Update,
+		//[Display(Name = "DU")]
+		//DeleteUpdate = Delete | Update,
+		//[Display(Name = "SID")]
+		//InsertDelete = Select | Insert | Delete,
+		//[Display(Name = "SIU")]
+		//InsertUpdate = Select | Insert | Update,
+		//[Display(Name = "SDU")]
+		//SelectDeleteUpdate = Select | Delete | Update,
+		//[Display(Name = "SIDU")]
+		//InsertDeleteUpdate = Select | Insert | Delete | Update,
 	}
 
 	public class Permission
@@ -55,7 +65,6 @@ namespace DACManager.Models
 		public TablePermission Stores { get; set; }
 
 		public bool Receive { get; set; }
-		public bool Transfer { get; set; }
 
 		[Display(Name = "Last Update")]
 		public DateTime LastUpdate { get; set; }
