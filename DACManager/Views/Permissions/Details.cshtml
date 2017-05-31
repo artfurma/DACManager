@@ -77,11 +77,17 @@
             @Html.DisplayFor(model => model.Stores)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Receive)
+            @Html.DisplayNameFor(model => model.CanTakeOver)
         </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Receive)
-        </dd>
+	    <dd>
+		    @Html.DisplayFor(model => model.CanTakeOver)
+	    </dd>
+	    <dt>
+		    @Html.DisplayNameFor(model => model.CanCreateUsers)
+	    </dt>
+	    <dd>
+		    @Html.DisplayFor(model => model.CanCreateUsers)
+	    </dd>
         <dt>
             @Html.DisplayNameFor(model => model.LastUpdate)
         </dt>

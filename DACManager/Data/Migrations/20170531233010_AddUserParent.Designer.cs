@@ -9,9 +9,10 @@ using DACManager.Models;
 namespace DACManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170531233010_AddUserParent")]
+    partial class AddUserParent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -222,8 +223,6 @@ namespace DACManager.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("Actors");
-
-                    b.Property<bool>("CanCreateUsers");
 
                     b.Property<bool>("CanTakeOver");
 

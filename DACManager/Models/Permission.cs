@@ -19,7 +19,7 @@ namespace DACManager.Models
 		Delete = 1 << 2,
 		[Display(Name = "u")]
 		Update = 1 << 3,
-		[Display(Name="S")]
+		[Display(Name = "S")]
 		DelegateSelect = 1 << 4,
 		[Display(Name = "I")]
 		DelegateInsert = 1 << 5,
@@ -27,6 +27,16 @@ namespace DACManager.Models
 		DelegateDelete = 1 << 6,
 		[Display(Name = "U")]
 		DelegateUpdate = 1 << 7,
+		[Display(Name = "S")]
+		SelectDelegateSelect = Select | DelegateSelect,
+		[Display(Name = "I")]
+		InsertDelegateInsert = Insert | DelegateInsert,
+		[Display(Name = "D")]
+		DeleteDelegateDelete = Delete | DelegateDelete,
+		[Display(Name = "U")]
+		UpdateDelegateUpdate = Update | DelegateUpdate,
+		[Display(Name = "SIDU")]
+		Full = SelectDelegateSelect | InsertDelegateInsert | DeleteDelegateDelete | UpdateDelegateUpdate,
 		//[Display(Name = "SI")]
 		//SelectInsert = Select | Insert,
 		//[Display(Name = "SD")]
@@ -52,6 +62,8 @@ namespace DACManager.Models
 		public string UserId { get; set; }
 		public ApplicationUser User { get; set; }
 
+		public string ParentId { get; set; }
+
 		public TablePermission Actors { get; set; }
 		public TablePermission Movies { get; set; }
 		public TablePermission Categories { get; set; }
@@ -64,7 +76,11 @@ namespace DACManager.Models
 		public TablePermission Staff { get; set; }
 		public TablePermission Stores { get; set; }
 
-		public bool Receive { get; set; }
+		[Display(Name = "Can Take Over")]
+		public bool CanTakeOver { get; set; }
+
+		[Display(Name = "Can Create Users")]
+		public bool CanCreateUsers { get; set; }
 
 		[Display(Name = "Last Update")]
 		public DateTime LastUpdate { get; set; }

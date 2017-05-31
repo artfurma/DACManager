@@ -57,7 +57,7 @@ namespace DACManager.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Id,UserId,Actors,Movies,Categories,Customers,Inventories,Languages,Payments,Permissions,Rentals,Staff,Stores,Receive,LastUpdate")] Permission permission)
+		public async Task<IActionResult> Create([Bind("Id,UserId,Actors,Movies,Categories,Customers,Inventories,Languages,Payments,Permissions,Rentals,Staff,Stores,CanTakeOver,CanCreateUsers,LastUpdate")] Permission permission)
 		{
 			if (ModelState.IsValid)
 			{
@@ -91,7 +91,7 @@ namespace DACManager.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,User,Actors,Movies,Categories,Customers,Inventories,Languages,Payments,Permissions,Rentals,Staff,Stores,Receive,LastUpdate")] Permission permission)
+		public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,User,Actors,Movies,Categories,Customers,Inventories,Languages,Payments,Permissions,Rentals,Staff,Stores,CanTakeOver,CanCreateUsers,LastUpdate")] Permission permission)
 		{
 			if (id != permission.Id)
 			{

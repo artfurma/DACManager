@@ -111,6 +111,8 @@ namespace DACManager.Controllers
 		public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
 		{
 			ViewData["ReturnUrl"] = returnUrl;
+			var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
 			if (ModelState.IsValid)
 			{
 				var newUserPermission = new Permission
@@ -126,7 +128,9 @@ namespace DACManager.Controllers
 					Rentals = TablePermission.None,
 					Staff = TablePermission.None,
 					Stores = TablePermission.None,
-					Receive = false,
+					CanTakeOver = false,
+					CanCreateUsers = false,
+					ParentId = currentUser.Id,
 					LastUpdate = DateTime.Now
 				};
 

@@ -9,9 +9,10 @@ using DACManager.Models;
 namespace DACManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170531231401_ReceiveToCanTakeOver")]
+    partial class ReceiveToCanTakeOver
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -223,8 +224,6 @@ namespace DACManager.Data.Migrations
 
                     b.Property<int>("Actors");
 
-                    b.Property<bool>("CanCreateUsers");
-
                     b.Property<bool>("CanTakeOver");
 
                     b.Property<int>("Categories");
@@ -238,8 +237,6 @@ namespace DACManager.Data.Migrations
                     b.Property<DateTime>("LastUpdate");
 
                     b.Property<int>("Movies");
-
-                    b.Property<string>("ParentId");
 
                     b.Property<int>("Payments");
 

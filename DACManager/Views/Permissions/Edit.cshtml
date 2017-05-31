@@ -19,132 +19,281 @@
 				<span asp-validation-for="UserId" class="text-danger"></span>
 			</div>
 		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						Table
+					</th>
+					<th>
+						Select
+					</th>
+					<th>
+						Insert
+					</th>
+					<th>
+						Delete
+					</th>
+					<th>
+						Update
+					</th>
+					<th>
+						Delegate Select
+					</th>
+					<th>
+						Delegate Insert
+					</th>
+					<th>
+						Delegate Delete
+					</th>
+					<th>
+						Delegate Update
+					</th>
+					<th>
+						ALL
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<label asp-for="Actors" class="col-md-2 control-label"></label>
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+					</td>
+					<td>
+						<input type="checkbox" class="selectAll" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label asp-for="Movies" class="col-md-2 control-label"></label>
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+					</td>
+					<td>
+						<input type="checkbox" class="selectAll" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label asp-for="Categories" class="col-md-2 control-label"></label>
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+					</td>
+					<td>
+						<input type="checkbox" class="selectAll" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label asp-for="Customers" class="col-md-2 control-label"></label>
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+					</td>
+					<td>
+						<input type="checkbox" class="selectAll" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label asp-for="Languages" class="col-md-2 control-label"></label>
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+					</td>
+					<td>
+						<input type="checkbox" class="selectAll" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label asp-for="Staff" class="col-md-2 control-label"></label>
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+					</td>
+					<td>
+						<input type="checkbox" class="selectAll" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label asp-for="Stores" class="col-md-2 control-label"></label>
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+					</td>
+					<td>
+						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+					</td>
+					<td>
+						<input type="checkbox" class="selectAll" />
+					</td>
+				</tr>
+			</tbody>
+		</table>
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
-				<label style="letter-spacing: 10px">SIDU</label>
-			</div>
-		</div>
-		<div class="form-group">
-			<label asp-for="Actors" class="col-md-2 control-label"></label>
-			@*<input asp-for="Actors" class="form-control" />
-				<span asp-validation-for="Actors" class="text-danger"></span>*@
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-			</div>
-		</div>
-		<div class="form-group">
-			<label asp-for="Movies" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Movies" class="form-control" />
-					<span asp-validation-for="Movies" class="text-danger"></span>
-				</div>*@
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
-			</div>
-		</div>
-		<div class="form-group">
-			<label asp-for="Categories" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Categories" class="form-control" />
-					<span asp-validation-for="Categories" class="text-danger"></span>
-				</div>*@
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
-			</div>
-		</div>
-		<div class="form-group">
-			<label asp-for="Customers" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Customers" class="form-control" />
-					<span asp-validation-for="Customers" class="text-danger"></span>
-				</div>*@
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
-			</div>
-		</div>
-		@*<div class="form-group">
-			<label asp-for="Inventories" class="col-md-2 control-label"></label>
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Inventories" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Inventories" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Inventories" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Inventories" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-			</div>
-		</div>*@
-		<div class="form-group">
-			<label asp-for="Languages" class="col-md-2 control-label"></label>
-			@*<div class="col-md-10">
-					<input asp-for="Languages" class="form-control" />
-					<span asp-validation-for="Languages" class="text-danger"></span>
-				</div>*@
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-				@*<input asp-for="Actors" class="form-control" />
-					<span asp-validation-for="Actors" class="text-danger"></span>*@
-			</div>
-		</div>
-		@*<div class="form-group">
-			<label asp-for="Payments" class="col-md-2 control-label"></label>
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Payments" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Payments" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Payments" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Payments" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-			</div>
-		</div>*@
-		@*<div class="form-group">
-			<label asp-for="Rentals" class="col-md-2 control-label"></label>
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Rentals" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Rentals" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Rentals" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Rentals" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-			</div>
-		</div>*@
-		<div class="form-group">
-			<label asp-for="Staff" class="col-md-2 control-label"></label>
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
-			</div>
-		</div>
-		<div class="form-group">
-			<label asp-for="Stores" class="col-md-2 control-label"></label>
-			<div class="col-md-10 form-inline">
-				<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Select" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Insert" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Delete" class="checkbox" />
-				<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Update" class="checkbox" />
+				<div class="checkbox">
+					<input asp-for="CanTakeOver" />
+					<label asp-for="CanTakeOver"></label>
+				</div>
 			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				<div class="checkbox">
-					<input asp-for="Receive" />
-					<label asp-for="Receive"></label>
+					<input asp-for="CanCreateUsers" />
+					<label asp-for="CanCreateUsers"></label>
 				</div>
 			</div>
 		</div>
