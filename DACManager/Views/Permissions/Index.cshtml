@@ -1,5 +1,10 @@
+@using DACManager.Data
+@using Microsoft.AspNetCore.Http
+@using DACManager.Models;
 @model IEnumerable<DACManager.Models.Permission>
-
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor ContextAccessor
+@inject ApplicationDbContext Context;
 @{
 	ViewData["Title"] = "User Permissions";
 }
@@ -49,7 +54,7 @@
 	</thead>
 	<tbody>
 		@foreach (var item in Model)
-		{
+			{
 			<tr>
 				<td>
 					@Html.DisplayFor(modelItem => item.User.UserName)
@@ -96,11 +101,31 @@
 				<td>
 					@Html.DisplayFor(modelItem => item.LastUpdate)
 				</td>
+				@{
+					var parent = await UserManager.GetUserAsync(ContextAccessor.HttpContext.User);
+					var isParent = false;
 
-				<td>
-					<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-				</td>
+					var currentUser = item;
+					while (!string.IsNullOrEmpty(currentUser.ParentId))
+					{
+						if (currentUser.ParentId == parent.Id)
+						{
+							isParent = true;
+							break;
+						}
+
+						var upperUser = await UserManager.FindByIdAsync(currentUser.ParentId);
+						currentUser = upperUser.Permission;
+					}
+					if (isParent || parent.IsAdmin)
+					{
+						<td>
+							<a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+						</td>
+					}
+				}
+
 			</tr>
-		}
+					}
 	</tbody>
 </table>

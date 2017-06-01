@@ -1,8 +1,10 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@using DACManager.Data
+@using Microsoft.AspNetCore.Http
 @using Microsoft.EntityFrameworkCore
 @inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 @inject UserManager<ApplicationUser> UserManager
 @inject IHttpContextAccessor ContextAccessor
+@inject ApplicationDbContext Context;
 
 <!DOCTYPE html>
 <html>
@@ -71,21 +73,11 @@
 								&ensp;Categories
 							</a>
 						</li>
-						@*<li>
-							<a asp-controller="Inventories" asp-action="Index">
-								&ensp;Inventories
-							</a>
-						</li>*@
 						<li>
 							<a asp-controller="Languages" asp-action="Index">
 								&ensp;Languages
 							</a>
 						</li>
-						@*<li>
-							<a asp-controller="Rentals" asp-action="Index">
-								&ensp;Rentals
-							</a>
-						</li>*@
 						<li>
 							<a asp-controller="Customers" asp-action="Index">
 								&ensp;Customers
@@ -101,30 +93,29 @@
 								&ensp;Stores
 							</a>
 						</li>
-						@*<li>
-							<a asp-controller="Payments" asp-action="Index">
-								&ensp;Payments
-							</a>
-						</li>*@
 					</ul>
 				</li>
 				@{
 					var user = await UserManager.GetUserAsync(ContextAccessor.HttpContext.User);
+					user.Permission = Context.Permissions.FirstOrDefault(p => p.UserId == user.Id);
 
-					if (user != null && user.IsAdmin)
+					if (user.IsAdmin)
 					{
-
 						<li>
 							<a asp-controller="Permissions" asp-action="Index">
 								<i class="fa fa-pencil fa-fw fa-lg" aria-hidden="true"></i> Edit Permissions
 							</a>
 						</li>
+					}
+					if (user.Permission.CanCreateUsers)
+					{
 						<li>
 							<a asp-controller="Account" asp-action="Register">
 								<i class="fa fa-user-plus fa-fw fa-lg" aria-hidden="true"></i> Add a New User
 							</a>
 						</li>
 					}
+
 				}
 			</ul>
 		</div>

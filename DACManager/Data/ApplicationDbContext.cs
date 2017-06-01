@@ -59,6 +59,12 @@ namespace DACManager.Data
 			builder.Entity<MovieCategory>().HasOne(mc => mc.Movie).WithMany(m => m.MovieCategories).HasForeignKey(mc => mc.MovieId);
 			builder.Entity<MovieCategory>().HasOne(mc => mc.Movie).WithMany(c => c.MovieCategories).HasForeignKey(mc => mc.CategoryId);
 			builder.Entity<MovieCategory>().ToTable("MovieCategories");
+
+			// Konfiguracja relacji jeden-do-jednego dla User i Permission
+			builder.Entity<ApplicationUser>()
+				.HasOne(u => u.Permission)
+				.WithOne(p => p.User)
+				.HasForeignKey<Permission>(p => p.UserId);
 		}
 	}
 }
