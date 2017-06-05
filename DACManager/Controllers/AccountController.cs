@@ -130,6 +130,7 @@ namespace DACManager.Controllers
 					Stores = TablePermission.None,
 					CanTakeOver = false,
 					CanCreateUsers = false,
+					CanViewPermissions = false,
 					ParentId = currentUser.Id,
 					LastUpdate = DateTime.Now
 				};

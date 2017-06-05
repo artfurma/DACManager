@@ -99,7 +99,7 @@
 					var user = await UserManager.GetUserAsync(ContextAccessor.HttpContext.User);
 					user.Permission = Context.Permissions.FirstOrDefault(p => p.UserId == user.Id);
 
-					if (user.IsAdmin)
+					if (user.IsAdmin || user.Permission.CanViewPermissions)
 					{
 						<li>
 							<a asp-controller="Permissions" asp-action="Index">
@@ -107,7 +107,7 @@
 							</a>
 						</li>
 					}
-					if (user.Permission.CanCreateUsers)
+					if (user.IsAdmin || user.Permission.CanCreateUsers)
 					{
 						<li>
 							<a asp-controller="Account" asp-action="Register">

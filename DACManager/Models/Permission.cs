@@ -12,13 +12,13 @@ namespace DACManager.Models
 		[Display(Name = "-")]
 		None = 0,
 		[Display(Name = "s")]
-		Select = 1 << 0,
+		s = 1 << 0,
 		[Display(Name = "i")]
-		Insert = 1 << 1,
+		i = 1 << 1,
 		[Display(Name = "d")]
-		Delete = 1 << 2,
+		d = 1 << 2,
 		[Display(Name = "u")]
-		Update = 1 << 3,
+		u = 1 << 3,
 		[Display(Name = "S")]
 		DelegateSelect = 1 << 4,
 		[Display(Name = "I")]
@@ -28,31 +28,16 @@ namespace DACManager.Models
 		[Display(Name = "U")]
 		DelegateUpdate = 1 << 7,
 		[Display(Name = "S")]
-		SelectDelegateSelect = Select | DelegateSelect,
+		S = s| DelegateSelect,
 		[Display(Name = "I")]
-		InsertDelegateInsert = Insert | DelegateInsert,
+		I = i | DelegateInsert,
 		[Display(Name = "D")]
-		DeleteDelegateDelete = Delete | DelegateDelete,
+		D = d | DelegateDelete,
 		[Display(Name = "U")]
-		UpdateDelegateUpdate = Update | DelegateUpdate,
-		[Display(Name = "SIDU")]
-		Full = SelectDelegateSelect | InsertDelegateInsert | DeleteDelegateDelete | UpdateDelegateUpdate,
-		//[Display(Name = "SI")]
-		//SelectInsert = Select | Insert,
-		//[Display(Name = "SD")]
-		//SelectDelete = Select | Delete,
-		//[Display(Name = "SU")]
-		//SelectUpdate = Select | Update,
-		//[Display(Name = "DU")]
-		//DeleteUpdate = Delete | Update,
-		//[Display(Name = "SID")]
-		//InsertDelete = Select | Insert | Delete,
-		//[Display(Name = "SIU")]
-		//InsertUpdate = Select | Insert | Update,
-		//[Display(Name = "SDU")]
-		//SelectDeleteUpdate = Select | Delete | Update,
+		U = u | DelegateUpdate,
 		//[Display(Name = "SIDU")]
-		//InsertDeleteUpdate = Select | Insert | Delete | Update,
+		//Full = S | I | D | U,
+
 	}
 
 	public class Permission
@@ -63,6 +48,7 @@ namespace DACManager.Models
 		public ApplicationUser User { get; set; }
 
 		public string ParentId { get; set; }
+
 
 		public TablePermission Actors { get; set; }
 		public TablePermission Movies { get; set; }
@@ -81,6 +67,9 @@ namespace DACManager.Models
 
 		[Display(Name = "Can Create Users")]
 		public bool CanCreateUsers { get; set; }
+
+		[Display(Name = "Can View Permissions")]
+		public bool CanViewPermissions { get; set; }
 
 		[Display(Name = "Last Update")]
 		public DateTime LastUpdate { get; set; }

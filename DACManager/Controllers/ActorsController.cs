@@ -41,7 +41,7 @@ namespace DACManager.Controllers
 
 			if (user.Permission.Actors == TablePermission.None) return Unauthorized();
 
-			if ((user.Permission.Actors & TablePermission.Select) == TablePermission.Select)
+			if ((user.Permission.Actors & TablePermission.s) == TablePermission.s)
 			{
 				ViewData["Select"] = true;
 			}

@@ -1,4 +1,10 @@
+@using System.Reflection
+@using DACManager.Data
+@using Microsoft.AspNetCore.Http
 @model DACManager.Models.Permission
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor ContextAccessor
+@inject ApplicationDbContext Context;
 
 @{
 	ViewData["Title"] = "Edit";
@@ -36,22 +42,22 @@
 						Select
 					</th>
 					<th>
-						Insert
-					</th>
-					<th>
-						Delete
-					</th>
-					<th>
-						Update
-					</th>
-					<th>
 						Delegate Select
+					</th>
+					<th>
+						Insert
 					</th>
 					<th>
 						Delegate Insert
 					</th>
 					<th>
+						Delete
+					</th>
+					<th>
 						Delegate Delete
+					</th>
+					<th>
+						Update
 					</th>
 					<th>
 						Delegate Update
@@ -62,34 +68,89 @@
 				</tr>
 			</thead>
 			<tbody>
+				@{
+					var user = await UserManager.GetUserAsync(ContextAccessor.HttpContext.User);
+					user.Permission = Context.Permissions.FirstOrDefault(p => p.UserId == user.Id);
+				}
 				<tr>
 					<td>
 						<label asp-for="Actors" class="col-md-2 control-label"></label>
 					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
-					</td>
+					@if (user.IsAdmin || (user.Permission.Actors & TablePermission.DelegateSelect) == TablePermission.DelegateSelect)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Select" class="checkbox s" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Actors & TablePermission.DelegateInsert) == TablePermission.DelegateInsert)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Actors & TablePermission.DelegateDelete) == TablePermission.DelegateDelete)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Actors & TablePermission.DelegateUpdate) == TablePermission.DelegateUpdate)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.Update" class="checkbox u" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Actors" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" disabled />
+						</td>
+					}
 					<td>
 						<input type="checkbox" class="selectAll" />
 					</td>
@@ -98,30 +159,81 @@
 					<td>
 						<label asp-for="Movies" class="col-md-2 control-label"></label>
 					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
-					</td>
+					@if (user.IsAdmin || (user.Permission.Movies & TablePermission.DelegateSelect) == TablePermission.DelegateSelect)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Select" class="checkbox s" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Movies & TablePermission.DelegateInsert) == TablePermission.DelegateInsert)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Movies & TablePermission.DelegateDelete) == TablePermission.DelegateDelete)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Movies & TablePermission.DelegateUpdate) == TablePermission.DelegateUpdate)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.Update" class="checkbox u" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Movies" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" disabled />
+						</td>
+					}
 					<td>
 						<input type="checkbox" class="selectAll" />
 					</td>
@@ -130,30 +242,81 @@
 					<td>
 						<label asp-for="Categories" class="col-md-2 control-label"></label>
 					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
-					</td>
+					@if (user.IsAdmin || (user.Permission.Categories & TablePermission.DelegateSelect) == TablePermission.DelegateSelect)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Select" class="checkbox s" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Categories & TablePermission.DelegateInsert) == TablePermission.DelegateInsert)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Categories & TablePermission.DelegateDelete) == TablePermission.DelegateDelete)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Categories & TablePermission.DelegateUpdate) == TablePermission.DelegateUpdate)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.Update" class="checkbox u" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Categories" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" disabled />
+						</td>
+					}
 					<td>
 						<input type="checkbox" class="selectAll" />
 					</td>
@@ -162,30 +325,81 @@
 					<td>
 						<label asp-for="Customers" class="col-md-2 control-label"></label>
 					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
-					</td>
+					@if (user.IsAdmin || (user.Permission.Customers & TablePermission.DelegateSelect) == TablePermission.DelegateSelect)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Select" class="checkbox s" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Customers & TablePermission.DelegateInsert) == TablePermission.DelegateInsert)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Customers & TablePermission.DelegateDelete) == TablePermission.DelegateDelete)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Customers & TablePermission.DelegateUpdate) == TablePermission.DelegateUpdate)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.Update" class="checkbox u" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Customers" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" disabled />
+						</td>
+					}
 					<td>
 						<input type="checkbox" class="selectAll" />
 					</td>
@@ -194,30 +408,81 @@
 					<td>
 						<label asp-for="Languages" class="col-md-2 control-label"></label>
 					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
-					</td>
+					@if (user.IsAdmin || (user.Permission.Languages & TablePermission.DelegateSelect) == TablePermission.DelegateSelect)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Select" class="checkbox s" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Languages & TablePermission.DelegateInsert) == TablePermission.DelegateInsert)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Languages & TablePermission.DelegateDelete) == TablePermission.DelegateDelete)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Languages & TablePermission.DelegateUpdate) == TablePermission.DelegateUpdate)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.Update" class="checkbox u" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Languages" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" disabled />
+						</td>
+					}
 					<td>
 						<input type="checkbox" class="selectAll" />
 					</td>
@@ -226,30 +491,81 @@
 					<td>
 						<label asp-for="Staff" class="col-md-2 control-label"></label>
 					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
-					</td>
+					@if (user.IsAdmin || (user.Permission.Staff & TablePermission.DelegateSelect) == TablePermission.DelegateSelect)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Select" class="checkbox s" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Staff & TablePermission.DelegateInsert) == TablePermission.DelegateInsert)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Staff & TablePermission.DelegateDelete) == TablePermission.DelegateDelete)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Staff & TablePermission.DelegateUpdate) == TablePermission.DelegateUpdate)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.Update" class="checkbox u" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Staff" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" disabled />
+						</td>
+					}
 					<td>
 						<input type="checkbox" class="selectAll" />
 					</td>
@@ -258,52 +574,121 @@
 					<td>
 						<label asp-for="Stores" class="col-md-2 control-label"></label>
 					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
-					</td>
-					<td>
-						<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
-					</td>
+					@if (user.IsAdmin || (user.Permission.Stores & TablePermission.DelegateSelect) == TablePermission.DelegateSelect)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Select" class="checkbox s" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Select" class="checkbox s" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateSelect" class="checkbox ds" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Stores & TablePermission.DelegateInsert) == TablePermission.DelegateInsert)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Insert" class="checkbox i" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateInsert" class="checkbox di" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Stores & TablePermission.DelegateDelete) == TablePermission.DelegateDelete)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Delete" class="checkbox d" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateDelete" class="checkbox dd" disabled />
+						</td>
+					}
+
+					@if (user.IsAdmin || (user.Permission.Stores & TablePermission.DelegateUpdate) == TablePermission.DelegateUpdate)
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Update" class="checkbox u" />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" />
+						</td>
+					}
+					else
+					{
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.Update" class="checkbox u" disabled />
+						</td>
+						<td>
+							<input type="checkbox" asp-enum-flag-for="Stores" asp-enum-flag-value="TablePermission.DelegateUpdate" class="checkbox du" disabled />
+						</td>
+					}
 					<td>
 						<input type="checkbox" class="selectAll" />
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
-				<div class="checkbox">
-					<input asp-for="CanTakeOver" />
-					<label asp-for="CanTakeOver"></label>
+		@if (user.IsAdmin)
+		{
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-10">
+					<div class="checkbox">
+						<input asp-for="CanTakeOver" />
+						<label asp-for="CanTakeOver"></label>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
-				<div class="checkbox">
-					<input asp-for="CanCreateUsers" />
-					<label asp-for="CanCreateUsers"></label>
+		}
+		@if (user.IsAdmin || user.Permission.CanCreateUsers)
+		{
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-10">
+					<div class="checkbox">
+						<input asp-for="CanCreateUsers" />
+						<label asp-for="CanCreateUsers"></label>
+					</div>
 				</div>
 			</div>
-		</div>
+		}
+		@if (user.IsAdmin || user.Permission.CanViewPermissions)
+		{
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-10">
+					<div class="checkbox">
+						<input asp-for="CanViewPermissions" />
+						<label asp-for="CanViewPermissions"></label>
+					</div>
+				</div>
+			</div>
+		}
+
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				<input type="submit" value="Save" class="btn btn-default" />
