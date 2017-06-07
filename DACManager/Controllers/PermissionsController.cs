@@ -62,7 +62,7 @@ namespace DACManager.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Id,UserId,Actors,Movies,Categories,Customers,Inventories,Languages,Payments,Permissions,Rentals,Staff,Stores,CanTakeOver,CanCreateUsers,CanViewPermissions,LastUpdate")] Permission permission)
+		public async Task<IActionResult> Create([Bind("Id,UserId,Actors,Movies,Categories,Customers,Inventories,Languages,Payments,Permissions,Rentals,Staff,Stores,CanTakeOver,CanCreateUsers,LastUpdate")] Permission permission)
 		{
 			if (ModelState.IsValid)
 			{
@@ -96,7 +96,7 @@ namespace DACManager.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,ParentId,User,Actors,Movies,Categories,Customers,Inventories,Languages,Payments,Permissions,Rentals,Staff,Stores,CanTakeOver,CanCreateUsers,CanViewPermissions,LastUpdate")] Permission permission)
+		public async Task<IActionResult> Edit(int id, [Bind("Id,UserId,ParentId,User,Actors,Movies,Categories,Customers,Inventories,Languages,Payments,Permissions,Rentals,Staff,Stores,CanTakeOver,CanCreateUsers,LastUpdate")] Permission permission)
 		{
 			if (id != permission.Id)
 			{
@@ -110,29 +110,50 @@ namespace DACManager.Controllers
 					var loggedInUser = await _userManager.GetUserAsync(HttpContext.User);
 					loggedInUser.Permission = _context.Permissions.FirstOrDefault(p => p.UserId == loggedInUser.Id);
 
-					if (permission.CanTakeOver)
+					var userPermission = _context.Permissions.AsNoTracking().FirstOrDefault(p => p.UserId == permission.UserId);
+
+					if (userPermission != null && userPermission.CanTakeOver)
 					{
 						TakeOverPermissions(loggedInUser.Permission, permission);
 						RemoveAllPermissions(loggedInUser.Permission);
+
+						_context.Update(permission);
+
+						var children = GetAllChildren(loggedInUser.Permission);
+						foreach (var child in children)
+						{
+							if (child.UserId == permission.UserId) continue;
+							if (userPermission.CanTakeOver)
+							{
+								RemoveAllPermissions(child);
+							}
+							else
+							{
+								UpdatePermissions(child, permission);
+							}
+							_context.Update(child);
+						}
+					}
+					else
+					{
+						var children = GetAllChildren(permission);
+						foreach (var child in children)
+						{
+							if (child.UserId == permission.UserId) continue;
+							if (userPermission != null && userPermission.CanTakeOver)
+							{
+								RemoveAllPermissions(child);
+							}
+							else
+							{
+								UpdatePermissions(child, permission);
+							}
+							_context.Update(child);
+						}
 					}
 
 					permission.LastUpdate = DateTime.Now;
 					_context.Update(permission);
-
-					var children = GetAllChildren(permission);
-					foreach (var child in children)
-					{
-						if (permission.CanTakeOver)
-						{
-							RemoveAllPermissions(child);
-						}
-						else
-						{
-							UpdatePermissions(child, permission);
-						}
-						_context.Update(child);
-					}
-
 					await _context.SaveChangesAsync();
 				}
 				catch (DbUpdateConcurrencyException)
@@ -177,7 +198,6 @@ namespace DACManager.Controllers
 			permission.Customers = TablePermission.None;
 			permission.Staff = TablePermission.None;
 			permission.Stores = TablePermission.None;
-			permission.CanViewPermissions = false;
 			permission.CanCreateUsers = false;
 			permission.CanTakeOver = false;
 		}
@@ -185,15 +205,23 @@ namespace DACManager.Controllers
 		public void TakeOverPermissions(Permission victim, Permission target)
 		{
 			target.Actors = victim.Actors;
-			target.Movies = victim.Actors;
-			target.Categories = victim.Actors;
-			target.Languages = victim.Actors;
-			target.Customers = victim.Actors;
-			target.Staff = victim.Actors;
-			target.Stores = victim.Actors;
-			target.CanViewPermissions = victim.CanViewPermissions;
+			target.Movies = victim.Movies;
+			target.Categories = victim.Categories;
+			target.Languages = victim.Languages;
+			target.Customers = victim.Customers;
+			target.Staff = victim.Staff;
+			target.Stores = victim.Stores;
 			target.CanCreateUsers = victim.CanCreateUsers;
-			target.CanTakeOver = victim.CanTakeOver;
+			target.CanTakeOver = false;
+			target.ParentId = victim.ParentId;
+
+			if (!victim.User.IsAdmin) return;
+			var targetUser = _context.Users.AsNoTracking().FirstOrDefault(u => u.Id == target.UserId);
+			targetUser.IsAdmin = true;
+			_context.Update(targetUser);
+
+			victim.User.IsAdmin = false;
+			_context.Update(victim.User);
 		}
 		public void UpdatePermissions(Permission child, Permission parent)
 		{
@@ -322,9 +350,6 @@ namespace DACManager.Controllers
 
 			if (!parent.CanTakeOver)
 				child.CanTakeOver = false;
-
-			if (!parent.CanViewPermissions)
-				child.CanViewPermissions = false;
 		}
 
 		// GET: Permissions/Delete/5

@@ -12,13 +12,13 @@ namespace DACManager.Models
 		[Display(Name = "-")]
 		None = 0,
 		[Display(Name = "s")]
-		s = 1 << 0,
+		Select = 1 << 0,
 		[Display(Name = "i")]
-		i = 1 << 1,
+		Insert = 1 << 1,
 		[Display(Name = "d")]
-		d = 1 << 2,
+		Delete = 1 << 2,
 		[Display(Name = "u")]
-		u = 1 << 3,
+		Update = 1 << 3,
 		[Display(Name = "S")]
 		DelegateSelect = 1 << 4,
 		[Display(Name = "I")]
@@ -28,13 +28,13 @@ namespace DACManager.Models
 		[Display(Name = "U")]
 		DelegateUpdate = 1 << 7,
 		[Display(Name = "S")]
-		S = s| DelegateSelect,
+		S = Select | DelegateSelect,
 		[Display(Name = "I")]
-		I = i | DelegateInsert,
+		I = Insert | DelegateInsert,
 		[Display(Name = "D")]
-		D = d | DelegateDelete,
+		D = Delete | DelegateDelete,
 		[Display(Name = "U")]
-		U = u | DelegateUpdate,
+		U = Update | DelegateUpdate,
 		//[Display(Name = "SIDU")]
 		//Full = S | I | D | U,
 
@@ -67,9 +67,6 @@ namespace DACManager.Models
 
 		[Display(Name = "Can Create Users")]
 		public bool CanCreateUsers { get; set; }
-
-		[Display(Name = "Can View Permissions")]
-		public bool CanViewPermissions { get; set; }
 
 		[Display(Name = "Last Update")]
 		public DateTime LastUpdate { get; set; }

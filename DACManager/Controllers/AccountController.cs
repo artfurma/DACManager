@@ -130,8 +130,7 @@ namespace DACManager.Controllers
 					Stores = TablePermission.None,
 					CanTakeOver = false,
 					CanCreateUsers = false,
-					CanViewPermissions = false,
-					ParentId = currentUser.Id,
+					ParentId = currentUser?.Id,
 					LastUpdate = DateTime.Now
 				};
 
@@ -149,6 +148,8 @@ namespace DACManager.Controllers
 					//await _signInManager.SignInAsync(user, isPersistent: false);
 					_logger.LogInformation(3, "User created a new account with password.");
 					return RedirectToAction(nameof(UserAdded), "Account");
+					//await _signInManager.SignInAsync(user, isPersistent: false);
+
 				}
 				AddErrors(result);
 			}
