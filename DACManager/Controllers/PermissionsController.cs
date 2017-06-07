@@ -88,6 +88,7 @@ namespace DACManager.Controllers
 				return NotFound();
 			}
 			ViewData["UserId"] = new SelectList(_context.Users, "Id", "UserName", permission.UserId);
+			ViewData["CanTakeOver"] = permission.CanTakeOver;
 			return View(permission);
 		}
 
