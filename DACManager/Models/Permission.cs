@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DACManager.Models
@@ -70,5 +72,51 @@ namespace DACManager.Models
 
 		[Display(Name = "Last Update")]
 		public DateTime LastUpdate { get; set; }
+
+		public string GetStringFromPermission(TablePermission permission)
+		{
+			var flags = Enum.GetValues(typeof(TablePermission));
+			var result = "----";
+			var sb = new StringBuilder(result);
+
+			foreach (TablePermission flag in flags)
+			{
+				if (!permission.HasFlag(flag)) continue;
+				var flagName = flag.GetType().GetMember(flag.ToString())
+					.First().GetCustomAttribute<DisplayAttribute>().GetName();
+
+				switch (flagName)
+				{
+					case "s":
+						sb[0] = 's';
+						break;
+					case "i":
+						sb[1] = 'i';
+						break;
+					case "d":
+						sb[2] = 'd';
+						break;
+					case "u":
+						sb[3] = 'u';
+						break;
+					case "S":
+						sb[0] = 'S';
+						break;
+					case "I":
+						sb[1] = 'I';
+						break;
+					case "D":
+						sb[2] = 'D';
+						break;
+					case "U":
+						sb[3] = 'U';
+						break;
+
+				}
+				result = sb.ToString();
+			}
+
+			return result;
+		}
 	}
 }

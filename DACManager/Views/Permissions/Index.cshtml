@@ -60,37 +60,31 @@
 					@Html.DisplayFor(modelItem => item.User.UserName)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Actors)
+					@*@Html.DisplayFor(modelItem => item.Actors)*@
+					@item.GetStringFromPermission(item.Actors)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Movies)
+					@*@Html.DisplayFor(modelItem => item.Movies)*@
+					@item.GetStringFromPermission(item.Movies)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Categories)
+					@*@Html.DisplayFor(modelItem => item.Categories)*@
+					@item.GetStringFromPermission(item.Categories)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Customers)
-				</td>
-				@*<td>
-						@Html.DisplayFor(modelItem => item.Inventories)
-					</td>*@
-				<td>
-					@Html.DisplayFor(modelItem => item.Languages)
-				</td>
-				@*<td>
-						@Html.DisplayFor(modelItem => item.Payments)
-					</td>*@
-				@*<td>
-						@Html.DisplayFor(modelItem => item.Permissions)
-					</td>*@
-				@*<td>
-						@Html.DisplayFor(modelItem => item.Rentals)
-					</td>*@
-				<td>
-					@Html.DisplayFor(modelItem => item.Staff)
+					@*@Html.DisplayFor(modelItem => item.Customers)*@
+					@item.GetStringFromPermission(item.Customers)
 				</td>
 				<td>
-					@Html.DisplayFor(modelItem => item.Stores)
+					@*@Html.DisplayFor(modelItem => item.Languages)*@
+					@item.GetStringFromPermission(item.Languages)
+				</td>
+				<td>
+					@*@Html.DisplayFor(modelItem => item.Staff)*@
+					@item.GetStringFromPermission(item.Staff)
+				</td>
+				<td>
+					@*@Html.DisplayFor(modelItem => item.Stores)*@
 				</td>
 				<td>
 					@Html.DisplayFor(modelItem => item.CanTakeOver)
